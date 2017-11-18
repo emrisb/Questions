@@ -32,8 +32,7 @@ public class PazarGunleriniBulma {
 		pgb.new FindFirstDaySunday(calendarStart, calendarEnd).printFirstDaySunday();
 
 		// prints the first days of month.
-		// pgb.new FindFirstDaySunday(calendarStart,
-		// calendarEnd).printFirstDaysOfMonths();
+		// pgb.new FindFirstDaySunday(calendarStart, calendarEnd).printFirstDaysOfMonths();
 	}
 
 	class FindFirstDaySunday {
