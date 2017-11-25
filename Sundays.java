@@ -26,24 +26,14 @@ public class Sundays {
 		}
 
 		void startFinding(int y1, int y2) {
-			boolean flag = false;
 			for (int y = y1; y <= y2; y++) {
-				if (y % 400 == 0) {
-					flag = true;
-				} else if (y % 4 == 0 && y % 400 != 0 && y % 100 == 0) {
-					flag = false;
-				} else if (y % 4 == 0 && y % 400 != 0) {
-					flag = true;
-				} else {
-					flag = false;
-				}
 				for (int m = 0; m <= 11; m++) {
 					for (int d = 1; d <= dayNumberOfMonths[m]; d++) {
 						if (d == 1) {
-							String theDay = findDay(d, m, y, flag);
-							String firstDayOfMonth = theDay + ", " + months[m] + " " + d + ", " + y;
+							byte theDay = findDay(d, m, y);
+							String firstDayOfMonth = days[theDay] + ", " + months[m] + " " + d + ", " + y;
 							firstDaysOfMonth.add(firstDayOfMonth);
-							if (theDay.equalsIgnoreCase("Sun")) {
+							if (days[theDay].equalsIgnoreCase("Sun")) {
 								firstDayOfMonthSunday.add(firstDayOfMonth);
 							}
 						}
@@ -52,10 +42,11 @@ public class Sundays {
 			}
 		}
 
-		String findDay(int d, int m, int y, boolean flag) {
+		byte findDay(int d, int m, int y) {
 			int sumOfDays = 0, sumOfOffset = 0;
+			byte day = 0;
 			if (m == 0 && y == 1900) {
-				return days[0];
+				return day;
 			} else {
 				if (y >= 1900 && y < 2000) {
 					sumOfOffset += 0;
@@ -64,7 +55,7 @@ public class Sundays {
 				}
 
 				y %= 100;
-				if (flag && (m == 0 || m == 1)) {
+				if (isLeapYear(y) && (m == 0 || m == 1)) {
 					y = (y + y / 4) % 7;
 					y -= 1;
 				} else {
@@ -85,7 +76,8 @@ public class Sundays {
 					sumOfOffset %= 7;
 					sumOfOffset -= 1;
 				}
-				return days[sumOfOffset];
+				day = (byte) sumOfOffset;
+				return day;
 			}
 		}
 
@@ -99,6 +91,18 @@ public class Sundays {
 			for (String day : firstDaysOfMonth) {
 				System.out.println(day);
 			}
+		}
+
+		boolean isLeapYear(int y) {
+			boolean flag = false;
+			if (y % 400 == 0) {
+				flag = true; // 400 un kati olan yillar icin(2000,2400,...)
+			} else if (y % 400 != 0 && y % 100 == 0) {
+				flag = false; // 4 ve 100 un kati fakat 400 un kati olmayanlar icin(1900,2100,...)
+			} else if (y % 4 == 0 && y % 400 != 0) {
+				flag = true; // 4 un kati olan yillar icin(1904,1908,...)
+			}
+			return flag;
 		}
 
 	}
