@@ -94,15 +94,10 @@ public class Sundays {
 		}
 
 		boolean isLeapYear(int y) {
-			boolean flag = false;
-			if (y % 400 == 0) {
-				flag = true; // 400 un kati olan yillar icin(2000,2400,...)
-			} else if (y % 400 != 0 && y % 100 == 0) {
-				flag = false; // 4 ve 100 un kati fakat 400 un kati olmayanlar icin(1900,2100,...)
-			} else if (y % 4 == 0 && y % 400 != 0) {
-				flag = true; // 4 un kati olan yillar icin(1904,1908,...)
-			}
-			return flag;
+			return (y % 400 == 0) ? true
+					: (y % 400 != 0 && y % 100 == 0) ? false 
+						: (y % 4 == 0 && y % 400 != 0) ? true 
+							: false;
 		}
 
 	}
